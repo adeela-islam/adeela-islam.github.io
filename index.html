@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adeela Islam | Portfolio</title>
+  <title>Adeela Islam | Homepage</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -226,6 +226,18 @@
       min-width: 90px;
       color: var(--primary);
     }
+    .news-item a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    
+    .news-item a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
 
     /* Publications - Zanxi Style */
     .pub-item {
@@ -439,7 +451,7 @@
       <a href="#about">About</a>
       <a href="#news">News</a>
       <a href="#publications">Publications</a>
-      <a href="mailto:your.email@example.com">Contact</a>
+      <a href="mailto:adeela.islam@iit.it">Contact</a>
     </div>
   </nav>
 
@@ -453,7 +465,7 @@
       <div class="subtitle">Doctoral Researcher @ IIT</div>
       
       <div class="icon-links">
-        <a href="mailto:your.email@example.com" class="icon-btn" title="Email">
+        <a href="mailto:adeela.islam@iit.it" class="icon-btn" title="Email">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
@@ -482,13 +494,13 @@
         <h2 class="section-title">About Me</h2>
         <div class="card-style about-text">
           <p style="margin-bottom: 16px;">
-            I am a PhD Researcher at the <strong>Istituto Italiano di Tecnologia (IIT)</strong> in Genoa, Italy, supervised by Dr. Alessio Del Bue and Prof. Dr. Vittorio Murino. Currently, I am also a Visiting Doctoral Researcher at the <strong>Max-Planck-Institut für Informatik</strong> in Germany, working with Dr. Vladislav Golyanik.
+            I am a final year PhD Researcher at the <strong><a href="https://www.iit.it/" target="_blank" style="color: var(--primary); text-decoration: none;">Istituto Italiano di Tecnologia (IIT)</a></strong> in Genoa, Italy, supervised by <a href="https://scholar.google.com/citations?user=LUzvbGIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Dr. Alessio Del Bue</a> and <a href="https://www.vittoriomurino.com/" target="_blank" rel="noopener noreferrer">Prof. Dr. Vittorio Murino</a>. I was also a Visiting Doctoral Researcher at the <strong><a href="https://www.mpi-inf.mpg.de/" target="_blank" style="color: var(--primary); text-decoration: none;">Max-Planck-Institut für Informatik</a></strong> in Germany, working with <a href="https://people.mpi-inf.mpg.de/~golyanik/" target="_blank" rel="noopener noreferrer">Dr. Vladislav Golyanik</a> and <a href="https://people.mpi-inf.mpg.de/~theobalt/" target="_blank" rel="noopener noreferrer">Prof. Christian Theobalt</a>.
           </p>
           <p style="margin-bottom: 16px;">
-            My research lies at the intersection of <strong>Computer Vision, Machine Learning, and Spatial Reasoning</strong>. I am particularly passionate about 2D and 3D reconstruction, specifically developing transformer-based models for 3D shape correspondence and curvature-guided mesh tokenization.
+            My research broadly lies at the intersection of <strong>Computer Vision, Deep Learning, and Multimodal Visual and Spatial Reasoning</strong>.
           </p>
           <p>
-            Previously, I worked as a Researcher and Lecturer at the University of the Punjab in Lahore, Pakistan, where I explored line extraction in handwritten documents, deep learning-based NLP, and medical image analysis.
+            Previously, I was a Researcher and Lecturer at the <a href="http://pu.edu.pk/" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">University of the Punjab</a>, where I worked on NLP, document analysis, and medical imaging, and earned my BS and MS in Computer Science as a Silver Medalist.
           </p>
         </div>
       </section>
@@ -496,18 +508,68 @@
       <section id="news">
         <h2 class="section-title">News</h2>
         <ul class="card-style news-list">
-          <li class="news-item">
+        
+        
+        <li class="news-item">
+          <span class="news-date">Jun 2026</span>
+          <span>🎉 One paper accepted at ECCV 2026.</span>
+        </li>
+
+        <li class="news-item">
             <span class="news-date">Dec 2025</span> 
-            <span>Started as a Visiting Doctoral Researcher at the <strong>Max-Planck-Institut für Informatik</strong>, Germany.</span>
+            <span>🎉 Started as a Visiting Doctoral Researcher at the <a href="https://www.mpi-inf.mpg.de/" target="_blank">Max-Planck-Institut für Informatik</a>, Germany.</span>
           </li>
-          <li class="news-item">
-            <span class="news-date">Nov 2023</span> 
-            <span>Began my PhD research journey at <strong>Istituto Italiano di Tecnologia (IIT)</strong>, Italy.</span>
-          </li>
-          <li class="news-item">
-            <span class="news-date">Jun 2023</span> 
-            <span>Successfully concluded my research tenure at the University of the Punjab.</span>
-          </li>
+        
+        <li class="news-item">
+          <span class="news-date">Nov 2025</span>
+          <span>Attended the <a href="https://www.repairproject.eu/" target="_blank">RePAIR Project</a> meeting in Pompeii, Italy.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Sep 2025</span>
+          <span>Attended the <a href="https://www.m2lschool.org/" target="_blank">Mediterranean Machine Learning Summer School</a> in Split, Croatia.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Sep 2025</span>
+          <span>Attended <a href="https://sites.google.com/view/iciap25" target="_blank">ICIAP 2025</a> in Rome, Italy.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Aug 2025</span>
+          <span>Attended the <a href="https://www.oxfordml.school/" target="_blank">Oxford Machine Learning School</a> in Oxford, UK.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Jun 2025</span>
+          <span>🎉 One paper accepted at ICCV 2025.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Apr 2025</span>
+          <span>Attended the <a href="https://www.repairproject.eu/" target="_blank">RePAIR Project</a> meeting in Pompeii, Italy.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Sep 2024</span>
+          <span>🎉 One paper accepted at NeurIPS 2024.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Sep 2024</span>
+          <span>Attended <a href="https://eccv.ecva.net/" target="_blank">ECCV 2024</a> in Milan, Italy.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Jul 2024</span>
+          <span>Attended the <a href="https://cmp.felk.cvut.cz/summerschool2024/" target="_blank">Vision and Sports Summer School</a> in Prague, Czech Republic.</span>
+        </li>
+        
+        <li class="news-item">
+          <span class="news-date">Nov 2023</span>
+          <span>🎉 Began my PhD research journey at <a href="https://www.iit.it/it/people-profile/-/people/adeela-islam" target="_blank">Istituto Italiano di Tecnologia (IIT)</a>, Italy.</span>
+        </li>
+          
         </ul>
       </section>
 
