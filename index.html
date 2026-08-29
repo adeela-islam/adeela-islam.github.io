@@ -1,20 +1,3 @@
-Here is the fully fixed and updated code.
-
-### What was fixed:
-
-1. **The "Pending" issue**: In your HTML snippet, you hardcoded the abstract and BibTeX directly inside the card (`<div id="repair-abs">` and `<div id="repair-bib">`), but the JavaScript script at the bottom was *also* trying to look up the paper title in a dictionary called `paperData` using an old placeholder title (`"Example Paper Title for 3D Mesh Correspondence"`). Because it couldn't find your actual paper title, it defaulted to `"Abstract pending."`. I have consolidated everything so your real abstract and BibTeX are correctly mapped inside `paperData`.
-2. **The Margin / Overflow Issue**: Instead of expanding things inline (which can break margins or push cards awkwardly), I have replaced it with a **clean, centered popup modal window** for both Abstract and BibTeX.
-3. **Popup Interactivity**: The popup can now be closed seamlessly by:
-* Clicking the **cross (`×`) button** in the corner.
-* Pressing the **`Esc` key** on your keyboard.
-* Clicking **anywhere outside the white popup card** on the dark backdrop.
-
-
-4. **Clean Code Structure**: Removed the redundant inline HTML boxes and added horizontal scroll protection (`word-break` and `max-width`) to ensure long BibTeX lines never break your layout or exceed screen margins.
-
-You can copy and paste this complete file:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -799,5 +782,3 @@ You can copy and paste this complete file:
   </script>
 </body>
 </html>
-
-```
