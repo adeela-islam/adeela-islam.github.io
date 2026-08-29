@@ -613,7 +613,7 @@
     });
 
     /* =========================================
-       3. Neural Network Background Canvas
+       3. Neural Network Background Canvas (Minimal & Subtle)
        ========================================= */
     (function() {
       const canvas = document.getElementById('nn-bg');
@@ -641,14 +641,12 @@
           this.size = size;
           this.color = color;
         }
-        // Draw individual dot
         draw() {
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
           ctx.fillStyle = this.color;
           ctx.fill();
         }
-        // Update position and bounce off edges
         update() {
           if (this.x > canvas.width || this.x < 0) {
             this.directionX = -this.directionX;
@@ -665,15 +663,18 @@
       // Populate particles array
       function init() {
         particlesArray = [];
-        // Number of particles depends on screen size (keeps it clean)
-        let numberOfParticles = (canvas.height * canvas.width) / 12000;
+        // Drastically reduced density (larger divisor = fewer particles)
+        let numberOfParticles = (canvas.height * canvas.width) / 30000; 
+        
         for (let i = 0; i < numberOfParticles; i++) {
-          let size = (Math.random() * 2) + 1;
+          let size = (Math.random() * 1.5) + 0.5; // Smaller dots
           let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
           let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-          let directionX = (Math.random() * 1) - 0.5;
-          let directionY = (Math.random() * 1) - 0.5;
-          let color = 'rgba(108, 92, 231, 0.4)'; // Zanxi's purple, semi-transparent
+          // Very slow, gentle movement
+          let directionX = (Math.random() * 0.4) - 0.2; 
+          let directionY = (Math.random() * 0.4) - 0.2;
+          // Very faint purple base color
+          let color = 'rgba(108, 92, 231, 0.15)'; 
           
           particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
         }
@@ -681,16 +682,20 @@
 
       // Check distance and draw connecting lines
       function connect() {
+        // Reduced connection radius so it only connects to immediate neighbors
+        let maxDistance = 18000; // Roughly a 134px radius
+        
         for (let a = 0; a < particlesArray.length; a++) {
           for (let b = a; b < particlesArray.length; b++) {
             let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
                          + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
             
             // Connect if close enough
-            if (distance < (canvas.width/7) * (canvas.height/7)) {
-              let opacityValue = 1 - (distance/20000);
+            if (distance < maxDistance) {
+              // Fade out smoothly, max opacity is a very subtle 0.1
+              let opacityValue = 0.1 * (1 - (distance / maxDistance));
               ctx.strokeStyle = 'rgba(108, 92, 231,' + opacityValue + ')';
-              ctx.lineWidth = 1;
+              ctx.lineWidth = 0.8; // Thinner lines
               ctx.beginPath();
               ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
               ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
