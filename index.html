@@ -1,1 +1,575 @@
-<h1>Adeela</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name | Portfolio</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #0ea5e9;     /* Modern Sky Blue instead of Purple */
+      --primary-hover: #0284c7;
+      --bg: #f8fafc;          /* Very light, cool gray background */
+      --text: #0f172a;        /* Dark slate text */
+      --mute: #64748b;        /* Muted slate text */
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --border-radius: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
+
+    /* Nav - Glassmorphism from 2nd example */
+    nav { 
+      position: sticky; 
+      top: 0; 
+      z-index: 50; 
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 15px 0;
+    }
+    
+    .nav-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+    }
+
+    nav a { 
+      text-decoration: none; 
+      color: var(--mute); 
+      font-weight: 500; 
+      font-size: 15px;
+      padding: 8px 16px; 
+      border-radius: 8px; 
+      transition: all 0.2s ease;
+    }
+    
+    nav a:hover { 
+      color: var(--primary); 
+      background: rgba(14, 165, 233, 0.08); 
+    }
+
+    /* Layout - 2 Columns (Sticky Sidebar + Content) */
+    .container { 
+      max-width: 1100px; 
+      margin: 40px auto; 
+      padding: 0 24px; 
+      display: flex;
+      gap: 60px;
+      align-items: flex-start;
+    }
+
+    /* Sidebar (Left) */
+    .sidebar {
+      width: 300px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 100px;
+      text-align: left;
+    }
+
+    .avatar-wrap { 
+      position: relative; 
+      width: 180px; 
+      height: 180px; 
+      margin-bottom: 24px;
+    }
+
+    .avatar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      background: linear-gradient(135deg, var(--primary), #a855f7);
+      border-radius: 50%;
+      z-index: 0;
+      opacity: 0.2;
+      filter: blur(12px);
+    }
+
+    .avatar { 
+      width: 100%; 
+      height: 100%; 
+      border-radius: 50%; 
+      border: 4px solid white;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+      background: var(--border);
+    }
+
+    .sidebar h1 { 
+      font-size: 36px; 
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 8px; 
+    }
+    
+    .sidebar .subtitle { 
+      font-size: 16px; 
+      color: var(--primary); 
+      font-weight: 600; 
+      margin-bottom: 16px; 
+    }
+
+    .sidebar .bio { 
+      font-size: 15px; 
+      color: var(--mute);
+      margin-bottom: 24px; 
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-social {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      border-radius: 99px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .btn-social:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(14, 165, 233, 0.1);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      color: white;
+    }
+
+    /* Main Content (Right) */
+    .content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .section-title { 
+      font-size: 28px; 
+      font-weight: 700; 
+      margin-bottom: 30px; 
+      color: var(--text); 
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 40%;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+      opacity: 0.5;
+    }
+
+    section {
+      margin-bottom: 60px;
+    }
+
+    /* Experience List - Tailored for your LaTeX data */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .exp-card {
+      display: flex;
+      gap: 24px;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s ease;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(14, 165, 233, 0.3);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+
+    .exp-date {
+      flex-shrink: 0;
+      width: 140px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-top: 4px;
+    }
+
+    .exp-details {
+      flex: 1;
+    }
+
+    .exp-role {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .exp-company {
+      font-size: 15px;
+      color: var(--mute);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .exp-desc {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.6;
+    }
+    
+    .exp-desc strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Publications snippet (Kept logic from first example, updated style) */
+    .pub-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pub-item:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+      border-color: rgba(14, 165, 233, 0.3);
+    }
+
+    .pub-thumb {
+      width: 160px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+    }
+
+    .pub-thumb img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .pub-body { flex: 1; min-width: 0; }
+    
+    .pub-title { 
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px; 
+      font-weight: 600; 
+      line-height: 1.3; 
+      margin-bottom: 6px; 
+    }
+    
+    .pub-authors { font-size: 14px; color: #475569; margin-bottom: 6px; }
+    .pub-authors strong { color: var(--text); font-weight: 600; }
+    .pub-venue { font-size: 14px; color: var(--mute); margin-bottom: 12px; font-style: italic; }
+    
+    .pub-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pbtn {
+      padding: 4px 12px; 
+      font-size: 12px; 
+      font-weight: 600; 
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      border-radius: 6px; 
+      text-decoration: none; 
+      color: var(--mute); 
+      transition: all 0.2s; 
+      cursor: pointer;
+    }
+    .pbtn:hover, .pbtn.active { 
+      background: var(--primary); 
+      border-color: var(--primary);
+      color: white; 
+    }
+
+    /* Expand box for ABS/BIB */
+    .pub-expand {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      background: #f8fafc;
+      border-left: 3px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: #334155;
+    }
+    .pub-expand pre {
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    .expand-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    /* Responsive */
+    @media (max-width: 850px) {
+      .container { flex-direction: column; gap: 40px; }
+      .sidebar { width: 100%; position: static; text-align: center; display: flex; flex-direction: column; align-items: center; }
+      .social-links { justify-content: center; }
+      .exp-card { flex-direction: column; gap: 12px; padding: 20px; }
+      .exp-date { width: auto; padding-top: 0; }
+      .pub-item { flex-direction: column; }
+      .pub-thumb { width: 100%; max-width: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-content">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#publications">Publications</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    
+    <aside class="sidebar">
+      <div class="avatar-wrap">
+        <img src="https://via.placeholder.com/180" alt="Adeela Islam" class="avatar">
+      </div>
+      <h1>Adeela Islam</h1>
+      <div class="subtitle">AI & Computer Vision Researcher</div>
+      <p class="bio">
+        Doctoral researcher specializing in Spatial Reasoning, 3D Reconstruction, and Computer Vision. 
+      </p>
+      
+      <div class="social-links">
+        <a href="#contact" class="btn-social btn-primary">Email Me</a>
+        <a href="#" target="_blank" class="btn-social">Google Scholar</a>
+        <a href="#" target="_blank" class="btn-social">GitHub</a>
+        <a href="#" target="_blank" class="btn-social">LinkedIn</a>
+      </div>
+    </aside>
+
+    <main class="content">
+
+      <section id="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="exp-list">
+
+          <div class="exp-card">
+            <div class="exp-date">Dec 2025 – May 2026</div>
+            <div class="exp-details">
+              <div class="exp-role">Visiting Doctoral Researcher</div>
+              <div class="exp-company">Max-Planck-Institut für Informatik, Germany</div>
+              <div class="exp-desc">
+                <strong>Principal Investigator:</strong> Dr. Vladislav Golyanik <br><br>
+                <strong>3D mesh correspondence estimation:</strong> Transformer-based model for 3D shape correspondence using curvature-guided mesh tokenization and attention-based matching, generalizing from partial to full shapes.
+              </div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <div class="exp-date">Nov 2023 – Oct 2026</div>
+            <div class="exp-details">
+              <div class="exp-role">PhD Researcher</div>
+              <div class="exp-company">Istituto Italiano di Tecnologia, Genoa, Italy</div>
+              <div class="exp-desc">
+                <strong>Principal Investigator:</strong> Dr. Alessio Del Bue and Prof. Dr. Vittorio Murino <br><br>
+                <strong>Research focus:</strong> Spatial Reasoning for 2D and 3D Reconstruction.
+              </div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <div class="exp-date">Jan 2021 – Jun 2023</div>
+            <div class="exp-details">
+              <div class="exp-role">Researcher</div>
+              <div class="exp-company">University of the Punjab, Lahore, Pakistan</div>
+              <div class="exp-desc">
+                Conducted research in computer vision, machine learning, and natural language processing, including line extraction in handwritten documents using instance segmentation, deep learning–based Urdu poetry generation, and mammogram analysis.
+              </div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <div class="exp-date">Feb 2022 – Sep 2022</div>
+            <div class="exp-details">
+              <div class="exp-role">Lecturer</div>
+              <div class="exp-company">University of the Punjab, Lahore, Pakistan</div>
+              <div class="exp-desc">
+                Instructed undergraduate students in computer vision theory and Python-based practical applications.
+              </div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <div class="exp-date">Oct 2021 – Feb 2022</div>
+            <div class="exp-details">
+              <div class="exp-role">Teaching Assistant</div>
+              <div class="exp-company">University of the Punjab, Lahore, Pakistan</div>
+              <div class="exp-desc">
+                Conducted Python-based labs on computer vision and medical imaging for master’s and Ph.D. students.
+              </div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <div class="exp-date">Oct 2020 – Jan 2021</div>
+            <div class="exp-details">
+              <div class="exp-role">IT Consultant</div>
+              <div class="exp-company">Abacus Cambridge Partners</div>
+              <div class="exp-desc">
+                Design and implementation of solutions using SAP Mobile Platform frameworks.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section id="publications">
+        <h2 class="section-title">Selected Publications</h2>
+        
+        <div class="pub-list">
+          <div class="pub-item">
+            <div class="pub-thumb">
+              <img src="https://via.placeholder.com/300x200" alt="Paper Thumbnail">
+            </div>
+            <div class="pub-body">
+              <div class="pub-title">Example Paper Title for 3D Mesh Correspondence</div>
+              <div class="pub-authors"><strong>Adeela Islam</strong>, Co-Author One, Co-Author Two</div>
+              <div class="pub-venue">CVPR 2025 — IEEE/CVF Conference on Computer Vision</div>
+              <div class="pub-btns">
+                <a class="pbtn">ABS</a>
+                <a class="pbtn">BIB</a>
+                <a href="#" class="pbtn">PDF</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      // Add your papers here matching the title exactly
+      const paperData = {
+        "Example Paper Title for 3D Mesh Correspondence": {
+          abs: `This is a placeholder abstract. Replace with the actual text of your publication's abstract.`,
+          bib: `@inproceedings{yourname2025,\n  title={Example Paper Title},\n  author={Your Name and others},\n  booktitle={CVPR},\n  year={2025}\n}`
+        }
+      };
+
+      function normalizeTitle(title) { return (title || "").replace(/\s+/g, " ").trim(); }
+      
+      function getOrCreateExpandBox(card) {
+        let box = card.querySelector('.pub-expand');
+        if (!box) {
+          box = document.createElement('div');
+          box.className = 'pub-expand';
+          const btns = card.querySelector('.pub-btns');
+          if (btns) btns.insertAdjacentElement('afterend', box);
+        }
+        return box;
+      }
+
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('.pub-btns a');
+        if (!link) return;
+
+        const label = normalizeTitle(link.textContent).toUpperCase();
+        if (label !== 'ABS' && label !== 'BIB') return; 
+
+        e.preventDefault();
+        const card = link.closest('.pub-item');
+        if (!card) return;
+
+        const titleEl = card.querySelector('.pub-title');
+        const title = normalizeTitle(titleEl ? titleEl.textContent : "");
+        const data = paperData[title] || { abs: "Abstract pending.", bib: "BibTeX pending." };
+        
+        const box = getOrCreateExpandBox(card);
+        const currentMode = box.getAttribute('data-mode');
+        const isOpen = box.style.display === 'block';
+
+        // Reset button states
+        card.querySelectorAll('.pub-btns a').forEach(a => a.classList.remove('active'));
+
+        if (isOpen && currentMode === label) {
+          box.style.display = 'none';
+          box.setAttribute('data-mode', '');
+          return;
+        }
+
+        link.classList.add('active');
+        if (label === 'ABS') {
+          box.innerHTML = `<div class="expand-label">Abstract</div><p>${data.abs}</p>`;
+        } else {
+          box.innerHTML = `<div class="expand-label">BibTeX</div><pre>${data.bib.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`;
+        }
+        
+        box.style.display = 'block';
+        box.setAttribute('data-mode', label);
+      });
+    })();
+  </script>
+</body>
+</html>
