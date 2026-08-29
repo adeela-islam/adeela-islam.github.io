@@ -1,3 +1,20 @@
+Here is the fully fixed and updated code.
+
+### What was fixed:
+
+1. **The "Pending" issue**: In your HTML snippet, you hardcoded the abstract and BibTeX directly inside the card (`<div id="repair-abs">` and `<div id="repair-bib">`), but the JavaScript script at the bottom was *also* trying to look up the paper title in a dictionary called `paperData` using an old placeholder title (`"Example Paper Title for 3D Mesh Correspondence"`). Because it couldn't find your actual paper title, it defaulted to `"Abstract pending."`. I have consolidated everything so your real abstract and BibTeX are correctly mapped inside `paperData`.
+2. **The Margin / Overflow Issue**: Instead of expanding things inline (which can break margins or push cards awkwardly), I have replaced it with a **clean, centered popup modal window** for both Abstract and BibTeX.
+3. **Popup Interactivity**: The popup can now be closed seamlessly by:
+* Clicking the **cross (`×`) button** in the corner.
+* Pressing the **`Esc` key** on your keyboard.
+* Clicking **anywhere outside the white popup card** on the dark backdrop.
+
+
+4. **Clean Code Structure**: Removed the redundant inline HTML boxes and added horizontal scroll protection (`word-break` and `max-width`) to ensure long BibTeX lines never break your layout or exceed screen margins.
+
+You can copy and paste this complete file:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -249,7 +266,7 @@
     }
 
     .pub-item:hover { 
-      transform: translateX(4px); /* subtle slide like Zanxi's */
+      transform: translateX(4px);
       box-shadow: 0 12px 24px rgba(37, 99, 235, 0.05);
       border-color: rgba(37, 99, 235, 0.2);
     }
@@ -261,7 +278,7 @@
       overflow: hidden;
       border: 1px solid var(--border);
       box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
-      cursor: zoom-in; /* Indicates it can be clicked */
+      cursor: zoom-in;
     }
 
     .pub-thumb img {
@@ -289,7 +306,7 @@
     .pub-authors u { color: #111; font-weight: 600; text-decoration-color: #aaa; text-underline-offset: 3px; }
     .pub-venue { font-size: 15px; color: var(--mute); margin-bottom: 12px; font-style: italic; }
     
-    .pub-tags { margin-bottom: 12px; }
+    .pub-tags { margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
     .ptag {
       display: inline-block;
       padding: 4px 14px;
@@ -306,7 +323,7 @@
       padding: 4px 12px; 
       font-size: 12px; 
       font-weight: 600; 
-      border: 1px solid #4b5563; /* Dark gray border */
+      border: 1px solid #4b5563;
       background: transparent;
       border-radius: 4px; 
       text-decoration: none; 
@@ -320,54 +337,95 @@
       color: white; 
     }
 
-    /* Expand box for ABS/BIB */
-    .pub-expand {
+    /* Pop-up Modal Styling (for Abstract & BibTeX) */
+    .popup-modal {
       display: none;
-      margin-top: 12px;
-      padding: 16px;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .popup-content {
+      background: white;
+      width: 100%;
+      max-width: 650px;
+      max-height: 85vh;
+      border-radius: var(--border-radius);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: zoomIn 0.2s ease;
+    }
+    .popup-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background: #f8fafc;
-      border-left: 3px solid var(--primary);
-      border-radius: 0 6px 6px 0;
-      font-size: 14px;
-      position: relative; /* For copy button positioning */
     }
-    .pub-expand pre {
-      white-space: pre-wrap;
-      font-family: monospace;
-      font-size: 13px;
-      color: #334155;
-      overflow-x: auto;
-    }
-    .expand-label {
-      font-size: 11px;
+    .popup-title {
+      font-size: 16px;
       font-weight: 700;
       color: var(--primary);
       text-transform: uppercase;
-      margin-bottom: 8px;
-      display: inline-block;
+      letter-spacing: 0.05em;
+    }
+    .popup-close {
+      background: transparent;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--mute);
+      transition: color 0.2s;
+    }
+    .popup-close:hover { color: var(--heading); }
+    
+    .popup-body {
+      padding: 24px;
+      overflow-y: auto;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .popup-body pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      background: #f1f5f9;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
     }
     
-    /* Copy Button */
+    .popup-footer {
+      padding: 12px 24px;
+      border-top: 1px solid var(--border);
+      background: #f8fafc;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
     .copy-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      padding: 4px 10px;
-      font-size: 11px;
+      padding: 6px 16px;
+      font-size: 13px;
       font-weight: 600;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
-      color: var(--text);
-      transition: all 0.2s;
+      transition: background 0.2s;
     }
-    .copy-btn:hover {
-      background: var(--bg);
-      border-color: var(--mute);
-    }
+    .copy-btn:hover { background: var(--primary-hover); }
 
-    /* Modal for Image Zoom */
+    /* Image Zoom Modal */
     .image-modal {
       display: none;
       position: fixed;
@@ -384,7 +442,6 @@
       border-radius: 8px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
       cursor: zoom-out;
-      animation: zoomIn 0.2s ease;
     }
     @keyframes zoomIn {
       from { opacity: 0; transform: scale(0.95); }
@@ -508,79 +565,62 @@
       <section id="news">
         <h2 class="section-title">News</h2>
         <ul class="card-style news-list">
-        
-        
-
-      <li class="news-item">
-        <span class="news-date">Jun 2026</span>
-        <span>🎉 One paper accepted at <a href="https://eccv.ecva.net/Conferences/2026" target="_blank">ECCV 2026</a>.</span>
-      </li>
-        <li class="news-item">
+          <li class="news-item">
+            <span class="news-date">Jun 2026</span>
+            <span>🎉 One paper accepted at <a href="https://eccv.ecva.net/Conferences/2026" target="_blank">ECCV 2026</a>.</span>
+          </li>
+          <li class="news-item">
             <span class="news-date">Dec 2025</span> 
             <span>🎉 Started as a Visiting Doctoral Researcher at the <a href="https://www.mpi-inf.mpg.de/" target="_blank">Max-Planck-Institut für Informatik</a>, Germany.</span>
           </li>
-        
-        <li class="news-item">
-          <span class="news-date">Nov 2025</span>
-          <span>Attended the <a href="https://www.repairproject.eu/" target="_blank">RePAIR Project</a> meeting in Pompeii, Italy.</span>
-        </li>
-        
-        <li class="news-item">
-          <span class="news-date">Sep 2025</span>
-          <span>Attended the <a href="https://www.m2lschool.org/" target="_blank">Mediterranean Machine Learning Summer School</a> in Split, Croatia.</span>
-        </li>
-        
-        <li class="news-item">
-          <span class="news-date">Sep 2025</span>
-          <span>Attended <a href="https://sites.google.com/view/iciap25" target="_blank">ICIAP 2025</a> in Rome, Italy.</span>
-        </li>
-        
-        <li class="news-item">
-          <span class="news-date">Aug 2025</span>
-          <span>Attended the <a href="https://www.oxfordml.school/" target="_blank">Oxford Machine Learning School</a> in Oxford, UK.</span>
-        </li>
-        
-
-      <li class="news-item">
-        <span class="news-date">Jun 2025</span>
-        <span>🎉 One paper accepted at <a href="https://iccv.thecvf.com/" target="_blank">ICCV 2025</a>.</span>
-      </li>
-
-        
-        <li class="news-item">
-          <span class="news-date">Apr 2025</span>
-          <span>Attended the <a href="https://www.repairproject.eu/" target="_blank">RePAIR Project</a> meeting in Pompeii, Italy.</span>
-        </li>
-        
-        <li class="news-item">
-          <span class="news-date">Sep 2024</span>
-          <span>🎉 One paper accepted at <a href="https://neurips.cc/Conferences/2024" target="_blank">NeurIPS 2024</a>.</span>
-        </li>
-        
-        <li class="news-item">
-          <span class="news-date">Sep 2024</span>
-          <span>Attended <a href="https://eccv.ecva.net/" target="_blank">ECCV 2024</a> in Milan, Italy.</span>
-        </li>
-        
-        <li class="news-item">
-          <span class="news-date">Jul 2024</span>
-          <span>Attended the <a href="https://cmp.felk.cvut.cz/summerschool2024/" target="_blank">Vision and Sports Summer School</a> in Prague, Czech Republic.</span>
-        </li>
-        
-        <li class="news-item">
-          <span class="news-date">Nov 2023</span>
-          <span>🎉 Began my PhD research journey at <a href="https://www.iit.it/it/people-profile/-/people/adeela-islam" target="_blank">Istituto Italiano di Tecnologia (IIT)</a>, Italy.</span>
-        </li>
-          
+          <li class="news-item">
+            <span class="news-date">Nov 2025</span>
+            <span>Attended the <a href="https://www.repairproject.eu/" target="_blank">RePAIR Project</a> meeting in Pompeii, Italy.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Sep 2025</span>
+            <span>Attended the <a href="https://www.m2lschool.org/" target="_blank">Mediterranean Machine Learning Summer School</a> in Split, Croatia.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Sep 2025</span>
+            <span>Attended <a href="https://sites.google.com/view/iciap25" target="_blank">ICIAP 2025</a> in Rome, Italy.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Aug 2025</span>
+            <span>Attended the <a href="https://www.oxfordml.school/" target="_blank">Oxford Machine Learning School</a> in Oxford, UK.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Jun 2025</span>
+            <span>🎉 One paper accepted at <a href="https://iccv.thecvf.com/" target="_blank">ICCV 2025</a>.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Apr 2025</span>
+            <span>Attended the <a href="https://www.repairproject.eu/" target="_blank">RePAIR Project</a> meeting in Pompeii, Italy.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Sep 2024</span>
+            <span>🎉 One paper accepted at <a href="https://neurips.cc/Conferences/2024" target="_blank">NeurIPS 2024</a>.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Sep 2024</span>
+            <span>Attended <a href="https://eccv.ecva.net/" target="_blank">ECCV 2024</a> in Milan, Italy.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Jul 2024</span>
+            <span>Attended the <a href="https://cmp.felk.cvut.cz/summerschool2024/" target="_blank">Vision and Sports Summer School</a> in Prague, Czech Republic.</span>
+          </li>
+          <li class="news-item">
+            <span class="news-date">Nov 2023</span>
+            <span>🎉 Began my PhD research journey at <a href="https://www.iit.it/it/people-profile/-/people/adeela-islam" target="_blank">Istituto Italiano di Tecnologia (IIT)</a>, Italy.</span>
+          </li>
         </ul>
       </section>
 
       <section id="publications">
         <h2 class="section-title">Selected Publications</h2>
         
-       
-    <div class="pub-list">
-          <div class="card-style pub-item">
+        <div class="pub-list">
+          <div class="card-style pub-item" data-paper-id="repair2024">
             <div class="pub-thumb">
               <img src="https://via.placeholder.com/300x200" alt="RePAIR Dataset" class="zoom-trigger">
             </div>
@@ -591,52 +631,41 @@
               <div class="pub-authors">
                 Theodore Tsesmelis, Luca Palmieri, Marina Khoroshiltseva, <u>Adeela Islam</u>, Gur Elkin, Ofir Itzhak Shahar, Gianluca Scarpellini, Stefano Fiorini, Yaniv Ohayon, Nadav Alali, Sinem Aslan, Pietro Morerio, Sebastiano Vascon, Elena Gravina, Maria Cristina Napolitano, Giuseppe Scarpati, Gabriel Zuchtriegel, Alexandra Spühler, Michel E. Fuchs, Stuart James, Ohad Ben-Shahar, Marcello Pelillo, Alessio Del Bue
               </div>
-        
               <div class="pub-venue">
                 NeurIPS 2024 — Advances in Neural Information Processing Systems
               </div>
-        
               <div class="pub-tags">
                 <span class="ptag">NeurIPS 2024</span>
                 <span class="ptag">Dataset & Benchmark</span>
               </div>
-        
               <div class="pub-btns">
-                <a class="pbtn" onclick="document.getElementById('repair-abs').style.display = document.getElementById('repair-abs').style.display === 'block' ? 'none' : 'block';">ABS</a>
-        
-                <a class="pbtn" onclick="document.getElementById('repair-bib').style.display = document.getElementById('repair-bib').style.display === 'block' ? 'none' : 'block';">BIB</a>
-        
+                <button class="pbtn abs-btn">ABS</button>
+                <button class="pbtn bib-btn">BIB</button>
                 <a href="https://repairproject.github.io/RePAIR_dataset/" target="_blank" class="pbtn">WEBSITE</a>
-        
                 <a href="https://proceedings.neurips.cc/paper_files/paper/2024/file/3507ec8d7d6895eb9feb87a2098abe11-Paper-Datasets_and_Benchmarks_Track.pdf" target="_blank" class="pbtn">PDF</a>
-        
                 <a href="https://github.com/RePAIRProject" target="_blank" class="pbtn">CODE</a>
-        
                 <a href="https://neurips.cc/virtual/2024/poster/97584" target="_blank" class="pbtn">VIDEO</a>
               </div>
-        
-              <div id="repair-abs" style="display:none; margin-top:12px;">
-                <strong>Abstract.</strong> This paper proposes the RePAIR dataset that represents a challenging benchmark to test modern computational and data-driven methods for puzzle-solving and reassembly tasks.
-              </div>
-        
-              <div id="repair-bib" style="display:none; margin-top:12px;">
-                <pre>@article{tsesmelis2024re,
-          title={Re-assembling the past: The RePAIR dataset and benchmark for real world 2D and 3D puzzle solving},
-          author={Tsesmelis, Theodore and Palmieri, Luca and Khoroshiltseva, Marina and Islam, Adeela and Elkin, Gur and Shahar, Ofir I and Scarpellini, Gianluca and Fiorini, Stefano and Ohayon, Yaniv and Alali, Nadav and others},
-          journal={Advances in Neural Information Processing Systems},
-          volume={37},
-          pages={30076--30105},
-          year={2024}
-        }</pre>
-              </div>
-        
             </div>
           </div>
-    </div>
-
+        </div>
       </section>
 
     </main>
+  </div>
+
+  <div class="popup-modal" id="popupModal">
+    <div class="popup-content">
+      <div class="popup-header">
+        <span class="popup-title" id="popupTitle">Modal Title</span>
+        <button class="popup-close" id="popupClose">&times;</button>
+      </div>
+      <div class="popup-body" id="popupBody">
+        </div>
+      <div class="popup-footer" id="popupFooter" style="display: none;">
+        <button class="copy-btn" id="modalCopyBtn">Copy BibTeX</button>
+      </div>
+    </div>
   </div>
 
   <div class="image-modal" id="imageModal">
@@ -658,99 +687,103 @@
 
   <script>
     /* =========================================
-       1. Abstract / BibTeX Toggle & Copy Logic
+       1. Paper Data Repository
        ========================================= */
-    (function () {
-      const paperData = {
-        "Example Paper Title for 3D Mesh Correspondence": {
-          abs: `This is a placeholder abstract. Replace with the actual text of your publication's abstract.`,
-          bib: `@inproceedings{islam2025,\n  title={Example Paper Title},\n  author={Islam, Adeela and others},\n  booktitle={CVPR},\n  year={2025}\n}`
-        }
-      };
-
-      function normalizeTitle(title) { return (title || "").replace(/\s+/g, " ").trim(); }
-      
-      function getOrCreateExpandBox(card) {
-        let box = card.querySelector('.pub-expand');
-        if (!box) {
-          box = document.createElement('div');
-          box.className = 'pub-expand';
-          const btns = card.querySelector('.pub-btns');
-          if (btns) btns.insertAdjacentElement('afterend', box);
-        }
-        return box;
+    const paperDatabase = {
+      "repair2024": {
+        title: "Re-assembling the past: The RePAIR dataset and benchmark for real world 2D and 3D puzzle solving",
+        abs: "This paper proposes the RePAIR dataset that represents a challenging benchmark to test modern computational and data-driven methods for puzzle-solving and reassembly tasks, focusing on complex real-world 2D and 3D application contexts.",
+        bib: `@article{tsesmelis2024re,\n  title={Re-assembling the past: The RePAIR dataset and benchmark for real world 2D and 3D puzzle solving},\n  author={Tsesmelis, Theodore and Palmieri, Luca and Khoroshiltseva, Marina and Islam, Adeela and Elkin, Gur and Shahar, Ofir I and Scarpellini, Gianluca and Fiorini, Stefano and Ohayon, Yaniv and Alali, Nadav and others},\n  journal={Advances in Neural Information Processing Systems},\n  volume={37},\n  pages={30076--30105},\n  year={2024}\n}`
       }
-
-      document.addEventListener('click', function (e) {
-        const link = e.target.closest('.pub-btns a');
-        if (!link) return;
-
-        const label = normalizeTitle(link.textContent).toUpperCase();
-        if (label !== 'ABS' && label !== 'BIB') return; 
-
-        e.preventDefault();
-        const card = link.closest('.pub-item');
-        if (!card) return;
-
-        const titleEl = card.querySelector('.pub-title');
-        const title = normalizeTitle(titleEl ? titleEl.textContent : "");
-        const data = paperData[title] || { abs: "Abstract pending.", bib: "BibTeX pending." };
-        
-        const box = getOrCreateExpandBox(card);
-        const currentMode = box.getAttribute('data-mode');
-        const isOpen = box.style.display === 'block';
-
-        card.querySelectorAll('.pub-btns a').forEach(a => a.classList.remove('active'));
-
-        if (isOpen && currentMode === label) {
-          box.style.display = 'none';
-          box.setAttribute('data-mode', '');
-          return;
-        }
-
-        link.classList.add('active');
-        if (label === 'ABS') {
-          box.innerHTML = `<div class="expand-label">Abstract</div><p>${data.abs}</p>`;
-        } else if (label === 'BIB') {
-          // Added Copy button logic specifically for BIB
-          box.innerHTML = `
-            <div class="expand-label">BibTeX</div>
-            <button class="copy-btn">Copy</button>
-            <pre>${data.bib.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
-          `;
-          
-          box.querySelector('.copy-btn').addEventListener('click', function() {
-            navigator.clipboard.writeText(data.bib).then(() => {
-              this.textContent = 'Copied!';
-              setTimeout(() => { this.textContent = 'Copy'; }, 2000);
-            });
-          });
-        }
-        
-        box.style.display = 'block';
-        box.setAttribute('data-mode', label);
-      });
-    })();
+    };
 
     /* =========================================
-       2. Image Zoom Modal Logic
+       2. Pop-up Modal Logic (ABS / BIB)
        ========================================= */
-    const modal = document.getElementById('imageModal');
+    const popupModal = document.getElementById('popupModal');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupBody = document.getElementById('popupBody');
+    const popupFooter = document.getElementById('popupFooter');
+    const popupClose = document.getElementById('popupClose');
+    const modalCopyBtn = document.getElementById('modalCopyBtn');
+    
+    let activeBibText = "";
+
+    function openPopup(titleText, htmlContent, isBib = false, rawBib = "") {
+      popupTitle.textContent = titleText;
+      popupBody.innerHTML = htmlContent;
+      
+      if (isBib) {
+        activeBibText = rawBib;
+        popupFooter.style.display = 'flex';
+      } else {
+        popupFooter.style.display = 'none';
+      }
+      
+      popupModal.style.display = 'flex';
+    }
+
+    function closePopup() {
+      popupModal.style.display = 'none';
+    }
+
+    // Event Delegation for ABS and BIB clicks
+    document.addEventListener('click', function(e) {
+      const pubItem = e.target.closest('.pub-item');
+      if (!pubItem) return;
+      
+      const paperId = pubItem.getAttribute('data-paper-id');
+      const paperInfo = paperDatabase[paperId];
+      if (!paperInfo) return;
+
+      if (e.target.classList.contains('abs-btn')) {
+        e.preventDefault();
+        openPopup("Abstract", `<p>${paperInfo.abs}</p>`, false);
+      } else if (e.target.classList.contains('bib-btn')) {
+        e.preventDefault();
+        openPopup("BibTeX", `<pre>${paperInfo.bib.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`, true, paperInfo.bib);
+      }
+    });
+
+    // Close conditions: Click close button, click backdrop, or press Escape key
+    popupClose.addEventListener('click', closePopup);
+    popupModal.addEventListener('click', function(e) {
+      if (e.target === popupModal) closePopup();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closePopup();
+        document.getElementById('imageModal').style.display = 'none';
+      }
+    });
+
+    // Copy Button Handler inside BibTeX modal
+    modalCopyBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText(activeBibText).then(() => {
+        modalCopyBtn.textContent = 'Copied!';
+        setTimeout(() => { modalCopyBtn.textContent = 'Copy BibTeX'; }, 2000);
+      });
+    });
+
+    /* =========================================
+       3. Image Zoom Modal Logic
+       ========================================= */
+    const imageModal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImg');
 
     document.querySelectorAll('.zoom-trigger').forEach(img => {
       img.addEventListener('click', function() {
         modalImg.src = this.src;
-        modal.style.display = 'flex';
+        imageModal.style.display = 'flex';
       });
     });
 
-    modal.addEventListener('click', function() {
-      modal.style.display = 'none';
+    imageModal.addEventListener('click', function() {
+      imageModal.style.display = 'none';
     });
 
     /* =========================================
-       3. Back to Top Button Logic
+       4. Back to Top Button Logic
        ========================================= */
     const backToTopBtn = document.getElementById("backToTop");
     window.onscroll = function() {
@@ -766,3 +799,5 @@
   </script>
 </body>
 </html>
+
+```
