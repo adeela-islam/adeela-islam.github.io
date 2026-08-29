@@ -23,7 +23,6 @@
       --border: #e2e8f0;        
       --border-radius: 12px;
       
-      /* Specific variables for the publication tags */
       --tag-bg: #eff6ff;
       --tag-text: #2563eb;
     }
@@ -234,47 +233,56 @@
       font-weight: 600;
       transition: all 0.2s ease;
     }
-    
     .news-item a:hover {
       color: var(--primary-hover);
       text-decoration: underline;
       text-underline-offset: 3px;
     }
 
-    /* Publications - Zanxi Style */
+    /* Publications - Zanxi / RePAIR Unified Style */
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     .pub-item {
       display: flex;
       gap: 25px;
       align-items: flex-start;
-      margin-bottom: 25px;
       transition: all 0.3s ease;
     }
 
     .pub-item:hover { 
       transform: translateX(4px);
-      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.05);
-      border-color: rgba(37, 99, 235, 0.2);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.08);
+      border-color: rgba(37, 99, 235, 0.3);
     }
 
     .pub-thumb {
       width: 180px;
+      height: 125px; /* Fixed consistent height for thumbnails */
       flex-shrink: 0;
       border-radius: 6px;
       overflow: hidden;
       border: 1px solid var(--border);
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.04);
       cursor: zoom-in;
     }
 
     .pub-thumb img {
       width: 100%;
-      display: block;
-      object-fit: cover;
+      height: 100%;
+      object-fit: cover; /* Uniform thumbnail scaling */
       transition: transform 0.3s;
     }
     
     .pub-thumb:hover img {
-      transform: scale(1.03);
+      transform: scale(1.04);
     }
 
     .pub-body { flex: 1; min-width: 0; }
@@ -287,26 +295,26 @@
       color: #111;
     }
     
-    .pub-authors { font-size: 15px; margin-bottom: 6px; color: #555;}
+    .pub-authors { font-size: 14px; margin-bottom: 6px; color: #555; }
     .pub-authors u { color: #111; font-weight: 600; text-decoration-color: #aaa; text-underline-offset: 3px; }
-    .pub-venue { font-size: 15px; color: var(--mute); margin-bottom: 12px; font-style: italic; }
+    .pub-venue { font-size: 14px; color: var(--mute); margin-bottom: 10px; font-style: italic; }
     
     .pub-tags { margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
     .ptag {
       display: inline-block;
-      padding: 4px 14px;
+      padding: 3px 12px;
       border-radius: 99px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       background-color: var(--tag-bg);
       color: var(--tag-text);
     }
 
-    /* Buttons matching Zanxi's screenshot */
+    /* Buttons */
     .pub-btns { display: flex; gap: 8px; flex-wrap: wrap; }
     .pbtn {
       padding: 4px 12px; 
-      font-size: 12px; 
+      font-size: 11px; 
       font-weight: 600; 
       border: 1px solid #4b5563;
       background: transparent;
@@ -335,6 +343,14 @@
       animation: fadeIn 0.22s ease;
     }
     .pub-expand p { margin: 0; }
+    .expand-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-4px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -448,7 +464,7 @@
     }
     @keyframes zoomIn {
       from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      to   { opacity: 1; transform: scale(1); }
     }
 
     /* Footer */
@@ -499,7 +515,7 @@
       .sidebar { width: 100%; position: static; text-align: center; display: flex; flex-direction: column; align-items: center; }
       .icon-links { justify-content: center; }
       .pub-item { flex-direction: column; }
-      .pub-thumb { width: 100%; max-width: 240px; }
+      .pub-thumb { width: 100%; height: auto; max-width: 240px; }
       .footer-content { flex-direction: column; gap: 16px; text-align: center; }
     }
   </style>
@@ -606,7 +622,7 @@
           </li>
           <li class="news-item">
             <span class="news-date">Sep 2024</span>
-            <span>Attended <a href="https://eccv.ecva.net/Conferences/2024" target="_blank">ECCV 2024</a> in Milan, Italy.</span>
+            <span>Attended <a href="https://eccv.ecva.net/" target="_blank">ECCV 2024</a> in Milan, Italy.</span>
           </li>
           <li class="news-item">
             <span class="news-date">Jul 2024</span>
@@ -623,110 +639,66 @@
         <h2 class="section-title">Selected Publications</h2>
         
         <div class="pub-list">
-
+          
           <div class="card-style pub-item" data-paper-id="eccv2026">
             <div class="pub-thumb">
               <img src="./images/em3rf.png" alt="E-M3RF" class="zoom-trigger">
             </div>
-          
             <div class="pub-body">
-              <div class="pub-title">
-                E-M3RF: An Equivariant Multimodal 3D Re-assembly Framework
-              </div>
-          
-              <div class="pub-authors">
-                <u><a href="https://em3rf.github.io/#" target="_blank">Adeela Islam</a></u><sup>1,2</sup>,
-                <a href="https://em3rf.github.io/#" target="_blank">Stefano Fiorini</a><sup>1</sup>,
-                <a href="https://em3rf.github.io/#" target="_blank">Manuel Lecha</a><sup>1,2</sup>,
-                <a href="https://em3rf.github.io/#" target="_blank">Theodore Tsesmelis</a><sup>1</sup>,
-                <a href="https://em3rf.github.io/#" target="_blank">Stuart James</a><sup>3</sup>,
-                <a href="https://em3rf.github.io/#" target="_blank">Pietro Morerio</a><sup>1</sup>,
-                <a href="https://em3rf.github.io/#" target="_blank">Alessio Del Bue</a><sup>1</sup>
-              </div>
-          
-              <div class="pub-venue">
-                <a href="https://eccv.ecva.net/Conferences/2026" target="_blank">
-                  European Conference on Computer Vision (ECCV), 2026
-                </a>
-              </div>
-          
+              <div class="pub-title">E-M3RF: An Equivariant Multimodal 3D Re-assembly Framework</div>
+              <div class="pub-authors"><u>Adeela Islam</u>, Stefano Fiorini, Manuel Lecha, Theodore Tsesmelis, Stuart James, Pietro Morerio, Alessio Del Bue</div>
+              <div class="pub-venue">European Conference on Computer Vision (ECCV), 2026</div>
               <div class="pub-tags">
                 <span class="ptag">ECCV 2026</span>
               </div>
-          
               <div class="pub-btns">
                 <button class="pbtn abs-btn">ABS</button>
+                <button class="pbtn bib-btn">BIB</button>
                 <a href="https://em3rf.github.io/" target="_blank" class="pbtn">WEBSITE</a>
                 <a href="https://arxiv.org/abs/2511.21422" target="_blank" class="pbtn">PDF</a>
                 <a href="https://github.com/em3rf/e-m3rf" target="_blank" class="pbtn">CODE</a>
               </div>
-          
               <div class="pub-expand" id="eccv2026-abs-box">
                 <div class="expand-label">Abstract</div>
                 <p>E-M3RF is an equivariant multimodal framework for assembling fragmented 3D objects from geometric, visual, and textual cues, leveraging SE(3) structure to reduce the search space and achieve state-of-the-art robustness under noise and partial observations.</p>
               </div>
-          
             </div>
           </div>
 
-        <div class="card-style pub-item" data-paper-id="iccv2025">
-          <div class="pub-thumb">
-            <img src="./images/reassemblenet.png" alt="ReassembleNet" class="zoom-trigger">
+          <div class="card-style pub-item" data-paper-id="iccv2025">
+            <div class="pub-thumb">
+              <img src="./images/reassemblenet.png" alt="ReassembleNet" class="zoom-trigger">
+            </div>
+            <div class="pub-body">
+              <div class="pub-title">ReassembleNet: Learnable Keypoints and Diffusion for 2D Fresco Reconstruction</div>
+              <div class="pub-authors"><u>Adeela Islam</u>, Stefano Fiorini, Stuart James, Pietro Morerio, Alessio Del Bue</div>
+              <div class="pub-venue">International Conference on Computer Vision (ICCV), 2025</div>
+              <div class="pub-tags">
+                <span class="ptag">ICCV 2025</span>
+              </div>
+              <div class="pub-btns">
+                <button class="pbtn abs-btn">ABS</button>
+                <button class="pbtn bib-btn">BIB</button>
+                <a href="https://adeislam.github.io/reassemblenet.github.io/" target="_blank" class="pbtn">WEBSITE</a>
+                <a href="https://arxiv.org/pdf/2505.21117" target="_blank" class="pbtn">PDF</a>
+                <a href="https://github.com/adeislam/ReassembleNet" target="_blank" class="pbtn">CODE</a>
+                <a href="https://www.youtube.com/watch?v=cmmKuJalGWs&feature=youtu.be" target="_blank" class="pbtn">VIDEO</a>
+              </div>
+              <div class="pub-expand" id="iccv2025-abs-box">
+                <div class="expand-label">Abstract</div>
+                <p>ReassembleNet is a scalable, multimodal deep learning framework for reconstructing complex fragmented structures, combining learned contour keypoints with diffusion-based pose estimation to achieve substantially more accurate rotation and translation recovery.</p>
+              </div>
+            </div>
           </div>
-        
-          <div class="pub-body">
-            <div class="pub-title">
-              ReassembleNet: Learnable Keypoints and Diffusion for 2D Fresco Reconstruction
-            </div>
-        
-            <div class="pub-authors">
-              <u><a href="https://scholar.google.com/citations?user=0br9IikAAAAJ&hl=en" target="_blank">Adeela Islam</a></u>,
-              <a href="https://scholar.google.com/citations?user=2O-BN9YAAAAJ&hl=it" target="_blank">Stefano Fiorini</a>,
-              <a href="https://scholar.google.com/citations?hl=en&user=VbRT0CwAAAAJ&view_op=list_works&sortby=pubdate" target="_blank">Stuart James</a>,
-              <a href="https://scholar.google.com/citations?user=lPV9rbkAAAAJ&hl=en" target="_blank">Pietro Morerio</a>,
-              <a href="https://scholar.google.com/citations?user=LUzvbGIAAAAJ&hl=en&oi=ao" target="_blank">Alessio Del Bue</a>
-            </div>
-        
-            <div class="pub-venue">
-              <a href="https://iccv.thecvf.com/Conferences/2025" target="_blank">
-                International Conference on Computer Vision (ICCV), 2025
-              </a>
-            </div>
-        
-            <div class="pub-tags">
-              <span class="ptag">ICCV 2025</span>
-            </div>
-        
-            <div class="pub-btns">
-              <button class="pbtn abs-btn">ABS</button>
-              <a href="https://adeislam.github.io/reassemblenet.github.io/" target="_blank" class="pbtn">WEBSITE</a>
-              <a href="https://arxiv.org/pdf/2505.21117" target="_blank" class="pbtn">PDF</a>
-              <a href="https://github.com/adeislam/ReassembleNet" target="_blank" class="pbtn">CODE</a>
-              <a href="https://www.youtube.com/watch?v=cmmKuJalGWs&feature=youtu.be" target="_blank" class="pbtn">VIDEO</a>
-            </div>
-        
-            <div class="pub-expand" id="iccv2025-abs-box">
-              <div class="expand-label">Abstract</div>
-              <p>ReassembleNet is a scalable, multimodal deep learning framework for reconstructing complex fragmented structures, combining learned contour keypoints with diffusion-based pose estimation to achieve substantially more accurate rotation and translation recovery.</p>
-            </div>
-        
-          </div>
-        </div>
 
           <div class="card-style pub-item" data-paper-id="repair2024">
             <div class="pub-thumb">
               <img src="./images/repair.png" alt="RePAIR Dataset" class="zoom-trigger">
             </div>
             <div class="pub-body">
-              <div class="pub-title">
-                Re-assembling the past: The RePAIR dataset and benchmark for real world 2D and 3D puzzle solving
-              </div>
-              <div class="pub-authors">
-                Theodore Tsesmelis, Luca Palmieri, Marina Khoroshiltseva, <u>Adeela Islam</u>, Gur Elkin, Ofir Itzhak Shahar, Gianluca Scarpellini, Stefano Fiorini, Yaniv Ohayon, Nadav Alali, Sinem Aslan, Pietro Morerio, Sebastiano Vascon, Elena Gravina, Maria Cristina Napolitano, Giuseppe Scarpati, Gabriel Zuchtriegel, Alexandra Spühler, Michel E. Fuchs, Stuart James, Ohad Ben-Shahar, Marcello Pelillo, Alessio Del Bue
-              </div>
-              <div class="pub-venue">
-                NeurIPS 2024 — Advances in Neural Information Processing Systems
-              </div>
+              <div class="pub-title">Re-assembling the past: The RePAIR dataset and benchmark for real world 2D and 3D puzzle solving</div>
+              <div class="pub-authors">Theodore Tsesmelis, Luca Palmieri, Marina Khoroshiltseva, <u>Adeela Islam</u>, et al.</div>
+              <div class="pub-venue">NeurIPS 2024 — Advances in Neural Information Processing Systems</div>
               <div class="pub-tags">
                 <span class="ptag">NeurIPS 2024</span>
                 <span class="ptag">Dataset & Benchmark</span>
@@ -739,12 +711,10 @@
                 <a href="https://github.com/RePAIRProject" target="_blank" class="pbtn">CODE</a>
                 <a href="https://neurips.cc/virtual/2024/poster/97584" target="_blank" class="pbtn">VIDEO</a>
               </div>
-              
-              <div class="pub-expand" id="repair-abs-box">
+              <div class="pub-expand" id="repair2024-abs-box">
                 <div class="expand-label">Abstract</div>
                 <p>This paper proposes the RePAIR dataset that represents a challenging benchmark to test modern computational and data-driven methods for puzzle-solving and reassembly tasks, focusing on complex real-world 2D and 3D application contexts.</p>
               </div>
-
             </div>
           </div>
 
@@ -752,25 +722,14 @@
             <div class="pub-thumb">
               <img src="./images/ijdar2023.png" alt="Line extraction in handwritten documents" class="zoom-trigger">
             </div>
-          
             <div class="pub-body">
-              <div class="pub-title">
-                Line extraction in handwritten documents via instance segmentation
-              </div>
-          
-              <div class="pub-authors">
-                <u>Adeela Islam</u>, Tayaba Anjum, Nazar Khan
-              </div>
-          
-              <div class="pub-venue">
-                International Journal on Document Analysis and Recognition (IJDAR), 2023 — ICDAR 2023
-              </div>
-          
+              <div class="pub-title">Line extraction in handwritten documents via instance segmentation</div>
+              <div class="pub-authors"><u>Adeela Islam</u>, Tayaba Anjum, Nazar Khan</div>
+              <div class="pub-venue">International Journal on Document Analysis and Recognition (IJDAR), 2023</div>
               <div class="pub-tags">
                 <span class="ptag">IJDAR</span>
                 <span class="ptag">ICDAR 2023</span>
               </div>
-          
               <div class="pub-btns">
                 <button class="pbtn abs-btn">ABS</button>
                 <button class="pbtn bib-btn">BIB</button>
@@ -778,28 +737,13 @@
                 <a href="https://link.springer.com/content/pdf/10.1007/s10032-023-00438-7.pdf" target="_blank" class="pbtn">PDF</a>
                 <a href="https://github.com/AdeelaIslam/HLExt-via-IS" target="_blank" class="pbtn">CODE</a>
               </div>
-          
               <div class="pub-expand" id="ijdar2023-abs-box">
                 <div class="expand-label">Abstract</div>
                 <p>A deep learning–based text-line segmentation method that robustly extracts handwritten text lines across diverse scripts, layouts, orientations, and document styles without dataset-specific processing.</p>
               </div>
-          
-              <div class="pub-expand" id="ijdar2023-bib-box">
-                <div class="expand-label">BibTeX</div>
-                <pre>@article{islam2023line,
-            title={Line extraction in handwritten documents via instance segmentation: A. Islam et al.},
-            author={Islam, Adeela and Anjum, Tayaba and Khan, Nazar},
-            journal={International Journal on Document Analysis and Recognition (IJDAR)},
-            volume={26},
-            number={3},
-            pages={335--346},
-            year={2023},
-            publisher={Springer}
-          }</pre>
-              </div>
-          
             </div>
           </div>
+
         </div>
       </section>
 
@@ -812,8 +756,7 @@
         <span class="popup-title">BibTeX</span>
         <button class="popup-close" id="popupClose">&times;</button>
       </div>
-      <div class="popup-body" id="popupBody">
-        </div>
+      <div class="popup-body" id="popupBody"></div>
       <div class="popup-footer">
         <button class="copy-btn" id="modalCopyBtn">Copy BibTeX</button>
       </div>
@@ -839,11 +782,20 @@
 
   <script>
     /* =========================================
-       1. Paper Data Repository (BibTeX only)
+       1. Complete Paper Data Repository (BibTeX)
        ========================================= */
     const paperDatabase = {
+      "eccv2026": {
+        bib: `@inproceedings{islam2026em3rf,\n  title={E-M3RF: An Equivariant Multimodal 3D Re-assembly Framework},\n  author={Islam, Adeela and Fiorini, Stefano and Lecha, Manuel and Tsesmelis, Theodore and James, Stuart and Morerio, Pietro and Del Bue, Alessio},\n  booktitle={European Conference on Computer Vision (ECCV)},\n  year={2026}\n}`
+      },
+      "iccv2025": {
+        bib: `@inproceedings{islam2025reassemblenet,\n  title={ReassembleNet: Learnable Keypoints and Diffusion for 2D Fresco Reconstruction},\n  author={Islam, Adeela and Fiorini, Stefano and James, Stuart and Morerio, Pietro and Del Bue, Alessio},\n  booktitle={International Conference on Computer Vision (ICCV)},\n  year={2025}\n}`
+      },
       "repair2024": {
         bib: `@article{tsesmelis2024re,\n  title={Re-assembling the past: The RePAIR dataset and benchmark for real world 2D and 3D puzzle solving},\n  author={Tsesmelis, Theodore and Palmieri, Luca and Khoroshiltseva, Marina and Islam, Adeela and Elkin, Gur and Shahar, Ofir I and Scarpellini, Gianluca and Fiorini, Stefano and Ohayon, Yaniv and Alali, Nadav and others},\n  journal={Advances in Neural Information Processing Systems},\n  volume={37},\n  pages={30076--30105},\n  year={2024}\n}`
+      },
+      "ijdar2023": {
+        bib: `@article{islam2023line,\n  title={Line extraction in handwritten documents via instance segmentation},\n  author={Islam, Adeela and Anjum, Tayaba and Khan, Nazar},\n  journal={International Journal on Document Analysis and Recognition (IJDAR)},\n  volume={26},\n  number={3},\n  pages={335--346},\n  year={2023},\n  publisher={Springer}\n}`
       }
     };
 
@@ -857,13 +809,12 @@
       const paperId = pubItem.getAttribute('data-paper-id');
       const paperInfo = paperDatabase[paperId];
 
-      // Handle ABS click (Inline toggle like Zanxi)
+      // Handle ABS click (Inline toggle)
       if (e.target.classList.contains('abs-btn')) {
         e.preventDefault();
         const absBox = pubItem.querySelector('.pub-expand');
         const isOpen = absBox.style.display === 'block';
         
-        // Toggle button active state
         pubItem.querySelectorAll('.abs-btn').forEach(btn => btn.classList.toggle('active', !isOpen));
         absBox.style.display = isOpen ? 'none' : 'block';
       }
