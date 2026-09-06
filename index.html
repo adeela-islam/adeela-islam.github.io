@@ -128,6 +128,13 @@
       position: relative;
       z-index: 1;
       background: var(--border);
+      -webkit-user-select: none; /* Safari */
+      -moz-user-select: none;    /* Firefox */
+      -ms-user-select: none;     /* IE/Edge */
+      user-select: none;         /* Standard */
+      
+      -webkit-touch-callout: none; /* iOS Safari (disables save menu on long press) */
+      pointer-events: none;       /* Disables mouse interaction entirely (clicks, right-clicks, drags) */
     }
 
     .sidebar h1 { 
@@ -555,8 +562,10 @@
   <div class="container">
     
     <aside class="sidebar">
-      <div class="avatar-wrap">
-        <img src="https://via.placeholder.com/180" alt="Adeela Islam" class="avatar">
+      <div class="avatar-wrap" style="position: relative; display: inline-block;">
+        <img src="images/profile.jpg" class="avatar" alt="Profile Picture">
+        
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10;"></div>
       </div>
       <h1>Adeela Islam</h1>
       <div class="subtitle">Doctoral Researcher @ IIT</div>
@@ -903,6 +912,9 @@
     backToTopBtn.addEventListener("click", function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+    document.querySelector('.avatar').addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
   </script>
 </body>
 </html>
