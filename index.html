@@ -804,7 +804,7 @@
   <footer>
     <div class="footer-content">
       <div>&copy; 2026 Adeela Islam.</div>
-      <div>Last updated: August 2026</div>
+      <div id="last-updated"></div>
     </div>
   </footer>
 
@@ -915,6 +915,13 @@
     document.querySelector('.avatar').addEventListener('contextmenu', function(e) {
   e.preventDefault();
 });
+
+    // Automatically update footer month and year
+document.getElementById('last-updated').textContent =
+  'Last updated: ' + new Date().toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  });
   </script>
 </body>
 </html>
